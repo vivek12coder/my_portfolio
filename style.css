@@ -623,3 +623,20 @@ footer {
         height: 200px;
     }
 }
+/* Add this to your existing CSS */
+.form-feedback {
+    margin-top: 10px;
+    color: var(--light-color);
+    text-align: center;
+    font-size: 1rem;
+}
+
+.form-feedback.success {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00;
+}
+
+.form-feedback.error {
+    color: #ff0000;
+    text-shadow: 0 0 5px #ff0000;
+}
