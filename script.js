@@ -136,12 +136,42 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Form Submission Feedback
-const form = document.querySelector('.contact-form');
-form.addEventListener('submit', (e) => {
+// Form Submission with Feedback
+const form = document.querySelector('#contactForm');
+const formFeedback = document.getElementById('formFeedback');
+
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    alert('Form submitted! (Demo mode - replace with actual backend integration)');
-    form.reset();
+    formFeedback.textContent = 'Sending...';
+    formFeedback.className = 'form-feedback';
+
+    const formData = new FormData(form);
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (response.ok) {
+            formFeedback.textContent = 'Message sent successfully!';
+            formFeedback.className = 'form-feedback success';
+            form.reset();
+            setTimeout(() => {
+                formFeedback.textContent = '';
+            }, 5000);
+        } else {
+            throw new Error(result.message || 'Failed to send message');
+        }
+    } catch (error) {
+        formFeedback.textContent = `Error: ${error.message}. Please check your form details or try again later.`;
+        formFeedback.className = 'form-feedback error';
+        setTimeout(() => {
+            formFeedback.textContent = '';
+        }, 5000);
+    }
 });
 
 // Cursor Trail Effect
